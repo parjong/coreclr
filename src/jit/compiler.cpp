@@ -3632,6 +3632,10 @@ _done:
     return doStress;
 }
 
+bool Compiler::compJitTrapMethod()
+{
+    return JitConfig.JitTrap().contains(info.compMethodName, info.compClassName, &info.compMethodInfo->args);
+}
 #endif // DEBUG
 
 void Compiler::compInitDebuggingInfo()
@@ -4262,6 +4266,17 @@ void Compiler::compCompile(void** methodCodePtr, ULONG* methodCodeSize, JitFlags
     // we can pass tests that contain try/catch EH, but don't actually throw any exceptions.
     fgRemoveEH();
 #endif // !FEATURE_EH
+
+#if defined(DEBUG)
+    // Insert a debug trap at the beginining of the first BB    
+    if ( compJitTrapMethod() )
+    {
+      GenTreePtr call = gtNewHelperCallNode(CORINFO_HELP_TRAP, TYP_VOID, 0);
+      GenTreePtr stmt = gtNewStmt(call);
+
+      fgInsertStmtAtBeg(fgFirstBB, stmt);
+    }
+#endif
 
     if (compileFlags->IsSet(JitFlags::JIT_FLAG_BBINSTR))
     {

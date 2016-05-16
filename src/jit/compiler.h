@@ -8863,7 +8863,7 @@ public:
     bool compDebugBreak;
 
     bool compJitHaltMethod();
-
+    bool compJitTrapMethod();
 #endif
 
     /*
