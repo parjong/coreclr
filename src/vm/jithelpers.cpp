@@ -6188,6 +6188,11 @@ HCIMPL0(void, JIT_UserBreakpoint)
 }
 HCIMPLEND
 
+HCIMPL0(void, JIT_TrapHelper)
+{
+}
+HCIMPLEND
+
 #if defined(_MSC_VER)
 // VC++ Compiler intrinsic.
 extern "C" void * _ReturnAddress(void);

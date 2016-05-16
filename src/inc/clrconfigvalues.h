@@ -424,6 +424,7 @@ CONFIG_STRING_INFO_EX(INTERNAL_JitGCDump, W("JitGCDump"), "", CLRConfig::REGUTIL
 CONFIG_DWORD_INFO(INTERNAL_JitGCInfoLogging, W("JitGCInfoLogging"), 0, "If true, prints GCInfo-related output to standard output.")
 CONFIG_DWORD_INFO_EX(INTERNAL_JitGCStress, W("JitGCStress"), 0, "GC stress mode for jit", CLRConfig::REGUTIL_default)
 CONFIG_STRING_INFO_EX(INTERNAL_JitHalt, W("JitHalt"), "Emits break instruction into jitted code", CLRConfig::REGUTIL_default)
+CONFIG_STRING_INFO_EX(INTERNAL_JitTrap, W("JitTrap"), "Emits CORINFO_HELP_TRAP call into the beginning of each jitted method", CLRConfig::REGUTIL_default)
 CONFIG_DWORD_INFO_EX(INTERNAL_JitHashHalt, W("JitHashHalt"), (DWORD)-1, "Same as JitHalt, but for a method hash", CLRConfig::REGUTIL_default)
 CONFIG_DWORD_INFO_EX(INTERNAL_JitHashBreak, W("JitHashBreak"), (DWORD)-1, "Same as JitBreak, but for a method hash", CLRConfig::REGUTIL_default)
 CONFIG_DWORD_INFO_EX(INTERNAL_JitHashDump, W("JitHashDump"), (DWORD)-1, "Same as JitDump, but for a method hash", CLRConfig::REGUTIL_default)
