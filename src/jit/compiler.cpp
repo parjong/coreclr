@@ -3619,6 +3619,13 @@ _done:
 
 #endif // DEBUG
 
+#ifdef DEBUG
+bool Compiler::compJitLogMethod()
+{
+    return JitConfig.JitLogMethod().contains(info.compMethodName, info.compClassName, &info.compMethodInfo->args);
+}
+#endif
+
 void Compiler::compInitDebuggingInfo()
 {
     assert(!compIsForInlining());
@@ -4242,6 +4249,17 @@ void Compiler::compCompile(void** methodCodePtr, ULONG* methodCodeSize, JitFlags
     fgRemoveEH();
 #endif // !FEATURE_EH
 
+#if defined(DEBUG)
+    // Insert a method logging function
+    if ( compJitLogMethod() )
+    {
+      GenTreeArgList* args = gtNewArgList(gtNewIconEmbMethHndNode(info.compMethodHnd));
+      GenTreePtr call      = gtNewHelperCallNode(CORINFO_HELP_LOGGING_METHOD, TYP_VOID, 0, args);
+      GenTreePtr stmt      = gtNewStmt(call);
+
+      fgInsertStmtAtBeg(fgFirstBB, stmt);
+    }
+#endif
     if (compileFlags->IsSet(JitFlags::JIT_FLAG_BBINSTR))
     {
         fgInstrumentMethod();

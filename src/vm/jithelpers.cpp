@@ -6188,6 +6188,25 @@ HCIMPL0(void, JIT_UserBreakpoint)
 }
 HCIMPLEND
 
+HCIMPL1(void, JIT_MethodLoggingHelper, CORINFO_METHOD_HANDLE methHnd_)
+{
+    FCALL_CONTRACT;
+
+    //
+    // Record an access to this method desc
+    //
+
+    HELPER_METHOD_FRAME_BEGIN_NOPOLL();
+#ifdef _DEBUG
+    MethodDesc *pMethod = GetMethod(methHnd_);
+
+    printf("[CoreCLR] %s,%s (%s)\n", pMethod->m_pszDebugClassName, pMethod->m_pszDebugMethodName, pMethod->m_pszDebugMethodSignature);
+#endif
+
+    HELPER_METHOD_FRAME_END_POLL();
+}
+HCIMPLEND
+
 #if defined(_MSC_VER)
 // VC++ Compiler intrinsic.
 extern "C" void * _ReturnAddress(void);

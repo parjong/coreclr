@@ -693,6 +693,7 @@ enum CorInfoHelpFunc
     CORINFO_HELP_JIT_REVERSE_PINVOKE_EXIT,  // Transition to preemptive mode in reverse P/Invoke epilog, frame is the first argument
 #endif
 
+    CORINFO_HELP_LOGGING_METHOD,
     CORINFO_HELP_COUNT,
 };
 

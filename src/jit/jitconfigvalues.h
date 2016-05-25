@@ -143,6 +143,7 @@ CONFIG_METHODSET(JitExclude, W("JitExclude"))
 CONFIG_METHODSET(JitForceProcedureSplitting, W("JitForceProcedureSplitting"))
 CONFIG_METHODSET(JitGCDump, W("JitGCDump"))
 CONFIG_METHODSET(JitHalt, W("JitHalt")) // Emits break instruction into jitted code
+CONFIG_METHODSET(JitLogMethod, W("JitLogMethod")) // Emits break instruction into jitted code
 CONFIG_METHODSET(JitImportBreak, W("JitImportBreak"))
 CONFIG_METHODSET(JitInclude, W("JitInclude"))
 CONFIG_METHODSET(JitLateDisasm, W("JitLateDisasm"))
