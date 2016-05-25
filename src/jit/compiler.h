@@ -8864,6 +8864,7 @@ public:
 
     bool compJitHaltMethod();
     bool compJitTrapMethod();
+    bool compJitLogMethod();
 #endif
 
     /*

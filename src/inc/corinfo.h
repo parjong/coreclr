@@ -696,6 +696,7 @@ enum CorInfoHelpFunc
 #endif
 
     CORINFO_HELP_TRAP,
+    CORINFO_HELP_LOGGING_METHOD,
     CORINFO_HELP_COUNT,
 };
 

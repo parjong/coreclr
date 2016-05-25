@@ -3636,6 +3636,12 @@ bool Compiler::compJitTrapMethod()
 {
     return JitConfig.JitTrap().contains(info.compMethodName, info.compClassName, &info.compMethodInfo->args);
 }
+
+bool Compiler::compJitLogMethod()
+{
+    return JitConfig.JitLogMethod().contains(info.compMethodName, info.compClassName, &info.compMethodInfo->args);
+}
+
 #endif // DEBUG
 
 void Compiler::compInitDebuggingInfo()
@@ -4274,6 +4280,16 @@ void Compiler::compCompile(void** methodCodePtr, ULONG* methodCodeSize, JitFlags
       GenTreePtr call = gtNewHelperCallNode(CORINFO_HELP_TRAP, TYP_VOID, 0);
       GenTreePtr stmt = gtNewStmt(call);
 
+      fgInsertStmtAtBeg(fgFirstBB, stmt);
+    }
+
+    // Insert a method logging function 
+    if ( compJitLogMethod() )
+    {
+      GenTreeArgList* args = gtNewArgList(gtNewIconEmbMethHndNode(info.compMethodHnd));
+      GenTreePtr call      = gtNewHelperCallNode(CORINFO_HELP_LOGGING_METHOD, TYP_VOID, 0, args);
+      GenTreePtr stmt      = gtNewStmt(call);
+      
       fgInsertStmtAtBeg(fgFirstBB, stmt);
     }
 #endif
