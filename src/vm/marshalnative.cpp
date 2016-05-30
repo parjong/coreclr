@@ -396,7 +396,10 @@ FCIMPL1(LPVOID, MarshalNative::GetFunctionPointerForDelegateInternal, Object* re
     HELPER_METHOD_FRAME_BEGIN_RET_1(refDelegate);
 
     pFPtr = COMDelegate::ConvertToCallback(refDelegate);
-    
+
+    if ( CLRConfig::GetConfigValue(CLRConfig::INTERNAL_LogFunctionPointerForDelegateInternal) != 0 )
+      fprintf(stderr, "[MarshalNative::GetFunctionPointerForDelegateInternal] %p -> %p\n", refDelegateUNSAFE, pFPtr);
+
     HELPER_METHOD_FRAME_END();
 
     return pFPtr;
