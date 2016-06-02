@@ -34954,6 +34954,10 @@ unsigned GCHeap::GetGcCount()
 size_t
 GCHeap::GarbageCollectGeneration (unsigned int gen, gc_reason reason)
 {
+#ifdef _DEBUG
+    if ( CLRConfig::GetConfigValue(CLRConfig::INTERNAL_DisableGC) != 0 )
+      return 0;
+#endif
     dprintf (2, ("triggered a GC!"));
 
 #ifdef MULTIPLE_HEAPS

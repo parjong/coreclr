@@ -304,6 +304,7 @@ RETAIL_CONFIG_DWORD_INFO_EX(UNSUPPORTED_FailFastOnCorruptedStateException, W("Fa
 // 
 // Garbage collector
 // 
+CONFIG_DWORD_INFO(INTERNAL_DisableGC, W("DisableGC"), 0, "Turn off GC")
 CONFIG_DWORD_INFO(INTERNAL_FastGCCheckStack, W("FastGCCheckStack"), 0, "")
 CONFIG_DWORD_INFO_DIRECT_ACCESS(INTERNAL_FastGCStress, W("FastGCStress"), "reduce the number of GCs done by enabling GCStress")
 RETAIL_CONFIG_DWORD_INFO_DIRECT_ACCESS(UNSUPPORTED_GCBreakOnOOM, W("GCBreakOnOOM"), "Does a DebugBreak at the soonest time we detect an OOM")
