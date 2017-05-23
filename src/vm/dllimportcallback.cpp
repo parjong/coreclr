@@ -1393,12 +1393,12 @@ VOID UMThunkMarshInfo::RunTimeInit()
 
     int offs = 0;
 
-    m_nShuffleDescr = sig.NumFixedArgs();
+    int nShuffleDescr = sig.NumFixedArgs();
 
 #ifdef UNIX_X86_ABI
     if (HasRetBuffArgUnmanagedFixup(&sig))
     {
-        m_nShuffleDescr += 1;
+        nShuffleDescr += 1;
     }
 #endif // UNIX_X86_ABI
 
@@ -1421,8 +1421,8 @@ VOID UMThunkMarshInfo::RunTimeInit()
     //
     // m_pShuffleDescr will describes how to bridge the gap between them.
     //
-    m_pShuffleDescr = new ShuffleDescription[m_nShuffleDescr];
-    ShuffleDescription *curShuffleDescr = m_pShuffleDescr;
+    ShuffleDescription *pShuffleDescr = new ShuffleDescription[nShuffleDescr];
+    ShuffleDescription *curShuffleDescr = pShuffleDescr;
 
 #ifdef UNIX_X86_ABI
     if (HasRetBuffArgUnmanagedFixup(&sig))
@@ -1474,7 +1474,13 @@ VOID UMThunkMarshInfo::RunTimeInit()
     m_cbStackArgSize = cbStackArgSize;
     m_cbActualArgSize = (pStubMD != NULL) ? pStubMD->AsDynamicMethodDesc()->GetNativeStackArgSize() : offs;
 
-    _ASSERTE(curShuffleDescr == m_pShuffleDescr + m_nShuffleDescr);
+    _ASSERTE(curShuffleDescr == pShuffleDescr + nShuffleDescr);
+
+    if (InterlockedCompareExchangeT<ShuffleDescription *>(&m_pShuffleDescr, pShuffleDescr, NULL) != NULL)
+    {
+        delete[] pShuffleDescr;
+    }
+    m_nShuffleDescr = nShuffleDescr;
 
     PInvokeStaticSigInfo sigInfo;
     if (pMD != NULL)
